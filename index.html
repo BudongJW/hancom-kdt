@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한컴 KDT 과정 실적 대시보드</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <span class="logo">한컴</span>
+        <div>
+          <h1>한컴 <span class="accent">KDT</span> 과정 실적</h1>
+          <p class="subtitle">K-Digital Training 기수별 성과 대시보드</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span id="badge" class="badge loading">불러오는 중...</span>
+        <span id="updated" class="meta-text"></span>
+      </div>
+    </div>
+  </header>
+
+  <div id="loading" class="loading-screen">
+    <div class="spinner"></div>
+    <p>고용24 데이터를 불러오는 중...</p>
+  </div>
+  <div id="error" class="error-box" style="display:none"></div>
+
+  <main id="main" class="main" style="display:none">
+    <!-- KPI 요약 -->
+    <section class="kpi-row">
+      <div class="kpi"><div class="kpi-val" id="kpiCourses">-</div><div class="kpi-lbl">과정</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiCohorts">-</div><div class="kpi-lbl">총 기수</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiTrainees">-</div><div class="kpi-lbl">총 수강인원</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiSat">-</div><div class="kpi-lbl">평균 만족도</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiEmp">-</div><div class="kpi-lbl">평균 취업률</div></div>
+    </section>
+
+    <!-- 필터 -->
+    <section class="filter-row">
+      <label for="filterOrg">훈련기관:</label>
+      <select id="filterOrg"><option value="">전체</option></select>
+      <label for="filterStatus">상태:</label>
+      <select id="filterStatus">
+        <option value="">전체</option>
+        <option value="in_progress">진행중</option>
+        <option value="completed">완료</option>
+        <option value="pending_stats">집계대기</option>
+        <option value="no_stats">통계없음</option>
+      </select>
+    </section>
+
+    <!-- 과정별 리스트 -->
+    <section class="list-section">
+      <div class="list-head">
+        <h2 class="sec-title">과정별 기수 상세</h2>
+        <div class="list-actions">
+          <span id="listCnt" class="cnt"></span>
+          <button id="csvBtn" class="btn-sm">CSV 내보내기</button>
+        </div>
+      </div>
+      <div id="courseList" class="course-list"></div>
+      <p class="note">* 데이터 출처: <a href="https://www.work24.go.kr" target="_blank" rel="noopener">고용24</a> Open API + 웹 크롤링<br>
+      <span class="status-badge prog">진행중</span> 현재 훈련 진행 중 &nbsp;
+      <span class="status-badge wait">집계대기</span> 종료 후 수료통계 미공개 &nbsp;
+      <span class="status-badge nostats">통계없음</span> 종료 후 6개월 이상 경과, 통계 미제공</p>
+    </section>
+
+    <!-- 차트 -->
+    <section class="chart-section">
+      <h2 class="sec-title">기수별 추이</h2>
+      <div class="chart-row">
+        <div class="chart-box">
+          <h3>만족도 (100점)</h3>
+          <div class="chart-wrap"><canvas id="cSat"></canvas></div>
+        </div>
+        <div class="chart-box">
+          <h3>취업률 (%)</h3>
+          <div class="chart-wrap"><canvas id="cEmp"></canvas></div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-box">
+          <h3>수료율 (%)</h3>
+          <div class="chart-wrap"><canvas id="cComp"></canvas></div>
+        </div>
+        <div class="chart-box">
+          <h3>수강인원 추이</h3>
+          <div class="chart-wrap"><canvas id="cTrainees"></canvas></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a href="https://www.work24.go.kr" target="_blank" rel="noopener">고용24</a> 데이터 기반 |
+    한컴 K-Digital Training 과정 실적 대시보드
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
