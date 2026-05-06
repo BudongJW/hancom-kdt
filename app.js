@@ -4,6 +4,8 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 const DATA_URL = 'data/courses.json';
+const BIDS_URL = 'data/bids.json';
+const NEW_BID_DAYS = 7;
 
 // ─── 유틸 ────────────────────────────────────────────────────────────
 function fmtDate(s) {
@@ -55,6 +57,8 @@ function avg(arr, key) {
 let allCourses = [];
 let filtered = [];
 const charts = {};
+let allBids = [];
+let bidsFiltered = [];
 
 // ─── 필터 적용 ───────────────────────────────────────────────────────
 function applyFilters() {
@@ -77,9 +81,16 @@ async function loadData() {
   const mainEl = document.getElementById('main');
 
   try {
-    const res = await fetch(DATA_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
+    // KDT 실적과 공고 소식을 병렬로 로드 (공고 로드 실패해도 KDT는 표시)
+    const [coursesRes, bidsRes] = await Promise.allSettled([
+      fetch(DATA_URL).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`)))),
+      fetch(BIDS_URL).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`)))),
+    ]);
+
+    if (coursesRes.status !== 'fulfilled') {
+      throw new Error(`KDT 데이터 로드 실패: ${coursesRes.reason.message}`);
+    }
+    const data = coursesRes.value;
     allCourses = data.courses || [];
     filtered = [...allCourses];
 
@@ -102,6 +113,18 @@ async function loadData() {
       orgSelect.appendChild(opt);
     }
 
+    // 공고 데이터
+    if (bidsRes.status === 'fulfilled') {
+      allBids = bidsRes.value.bids || [];
+      bidsFiltered = [...allBids];
+      updateNewBidsBadge();
+      renderBids();
+    } else {
+      console.warn('공고 데이터 로드 실패:', bidsRes.reason.message);
+      document.getElementById('bidList').innerHTML =
+        `<div class="bid-empty">공고 데이터를 불러오지 못했습니다.<br>${bidsRes.reason.message}</div>`;
+    }
+
     render();
     loadEl.style.display = 'none';
     mainEl.style.display = 'flex';
@@ -110,6 +133,110 @@ async function loadData() {
     errEl.textContent = `데이터를 불러오지 못했습니다: ${e.message}`;
     errEl.style.display = 'block';
   }
+}
+
+// ─── 공고: 신규 판단 ─────────────────────────────────────────────────
+function isRecentBid(bid) {
+  if (!bid.postedDate) return false;
+  const posted = new Date(bid.postedDate);
+  const cutoff = new Date(Date.now() - NEW_BID_DAYS * 24 * 60 * 60 * 1000);
+  return posted >= cutoff;
+}
+
+function updateNewBidsBadge() {
+  const newCount = allBids.filter(isRecentBid).length;
+  const badge = document.getElementById('newBidsBadge');
+  if (newCount > 0) {
+    badge.textContent = newCount;
+    badge.hidden = false;
+  } else {
+    badge.hidden = true;
+  }
+}
+
+// ─── 공고 필터 ───────────────────────────────────────────────────────
+function applyBidFilters() {
+  const src = document.getElementById('bidFilterSource').value;
+  const kw = document.getElementById('bidFilterKw').value.trim().toLowerCase();
+  const recentOnly = document.getElementById('bidFilterNew').checked;
+
+  bidsFiltered = allBids.filter((b) => {
+    if (src && b.source !== src) return false;
+    if (kw && !(b.title || '').toLowerCase().includes(kw)) return false;
+    if (recentOnly && !isRecentBid(b)) return false;
+    return true;
+  });
+  renderBids();
+}
+
+// ─── 공고 렌더 ───────────────────────────────────────────────────────
+function renderBids() {
+  document.getElementById('bidKpiTotal').textContent = allBids.length;
+  document.getElementById('bidKpiKsqa').textContent = allBids.filter((b) => b.source === 'KSQA').length;
+  document.getElementById('bidKpiMoel').textContent = allBids.filter((b) => b.source === 'MOEL').length;
+  document.getElementById('bidKpiG2b').textContent = allBids.filter((b) => b.source === 'G2B').length;
+
+  const list = document.getElementById('bidList');
+  document.getElementById('bidListCnt').textContent = `${bidsFiltered.length}건`;
+
+  if (!bidsFiltered.length) {
+    list.innerHTML = '<div class="bid-empty">조건에 맞는 공고가 없습니다.</div>';
+    return;
+  }
+
+  list.innerHTML = bidsFiltered
+    .map((b) => {
+      const recent = isRecentBid(b);
+      const srcCls = b.source.toLowerCase();
+      const statusBadge =
+        b.status === '신청접수'
+          ? '<span class="status-badge prog">신청접수</span>'
+          : b.status === '결과발표'
+          ? '<span class="status-badge done">결과발표</span>'
+          : b.status === '접수마감'
+          ? '<span class="status-badge nostats">접수마감</span>'
+          : b.status
+          ? `<span class="status-badge wait">${escapeHtml(b.status)}</span>`
+          : '';
+      const deadline = b.deadline
+        ? `<span class="bid-deadline">~ ${b.deadline}</span>`
+        : '';
+      const sub = [b.subCategory, b.type].filter(Boolean).join(' · ');
+      return `<div class="bid-card${recent ? ' is-new' : ''}">
+        <div class="bid-meta">
+          <span class="bid-source ${srcCls}">${escapeHtml(b.sourceLabel || b.source)}</span>
+          ${b.category ? `<span class="bid-cat">${escapeHtml(b.category)}</span>` : ''}
+          ${statusBadge}
+          ${recent ? '<span class="bid-new-dot">●</span>' : ''}
+          <span class="bid-date">${b.postedDate || '-'}${deadline ? ' &middot; ' + deadline : ''}</span>
+        </div>
+        <a class="bid-title" href="${escapeAttr(b.url || '#')}" target="_blank" rel="noopener">${escapeHtml(b.title)}</a>
+        ${sub ? `<div class="bid-sub">${escapeHtml(sub)}</div>` : ''}
+      </div>`;
+    })
+    .join('');
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+// ─── 탭 전환 ─────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t) =>
+    t.classList.toggle('active', t.dataset.tab === name)
+  );
+  document.querySelectorAll('.tab-pane').forEach((p) =>
+    p.classList.toggle('active', p.id === `tab-${name}`)
+  );
+  // 차트는 처음 표시될 때 컨테이너 너비를 알아야 정확히 그려지므로 전환 시 재렌더
+  if (name === 'kdt') renderCharts();
 }
 
 // ─── 렌더 ────────────────────────────────────────────────────────────
@@ -401,4 +528,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('csvBtn').addEventListener('click', exportCsv);
   document.getElementById('filterOrg').addEventListener('change', applyFilters);
   document.getElementById('filterStatus').addEventListener('change', applyFilters);
+
+  // 공고 탭 필터
+  document.getElementById('bidFilterSource').addEventListener('change', applyBidFilters);
+  document.getElementById('bidFilterKw').addEventListener('input', applyBidFilters);
+  document.getElementById('bidFilterNew').addEventListener('change', applyBidFilters);
+
+  // 탭 전환
+  document.querySelectorAll('.tab').forEach((t) =>
+    t.addEventListener('click', () => switchTab(t.dataset.tab))
+  );
 });

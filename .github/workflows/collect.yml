@@ -28,16 +28,22 @@ jobs:
       - name: 의존성 설치
         run: npm ci
 
-      - name: 데이터 수집
+      - name: KDT 실적 수집
         env:
           WORK24_API_KEY: ${{ secrets.WORK24_API_KEY }}
         run: npm run collect
+
+      - name: 공고 소식 수집
+        env:
+          G2B_API_KEY: ${{ secrets.G2B_API_KEY }}
+        run: npm run bids
+        continue-on-error: true
 
       - name: 변경사항 커밋 & 푸시
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/courses.json
+          git add data/courses.json data/bids.json
           if git diff --cached --quiet; then
             echo "변경사항 없음 — 스킵"
           else

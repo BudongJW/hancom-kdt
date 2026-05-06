@@ -4,7 +4,8 @@
   "private": true,
   "description": "한컴 KDT 과정 실적 자동 수집 대시보드",
   "scripts": {
-    "collect": "node scripts/collect.js"
+    "collect": "node scripts/collect.js",
+    "bids": "node scripts/bids.js"
   },
   "engines": {
     "node": ">=22"

@@ -25,13 +25,25 @@
     </div>
   </header>
 
+  <nav class="tabs">
+    <div class="tabs-inner">
+      <button class="tab active" data-tab="kdt">KDT 실적</button>
+      <button class="tab" data-tab="bids">
+        공고 소식
+        <span id="newBidsBadge" class="tab-badge" hidden></span>
+      </button>
+    </div>
+  </nav>
+
   <div id="loading" class="loading-screen">
     <div class="spinner"></div>
-    <p>고용24 데이터를 불러오는 중...</p>
+    <p>데이터를 불러오는 중...</p>
   </div>
   <div id="error" class="error-box" style="display:none"></div>
 
   <main id="main" class="main" style="display:none">
+    <!-- ─── 탭1: KDT 실적 ─────────────────────────────────────────────── -->
+    <div id="tab-kdt" class="tab-pane active">
     <!-- KPI 요약 -->
     <section class="kpi-row">
       <div class="kpi"><div class="kpi-val" id="kpiCourses">-</div><div class="kpi-lbl">과정</div></div>
@@ -95,6 +107,43 @@
         </div>
       </div>
     </section>
+    </div><!-- /#tab-kdt -->
+
+    <!-- ─── 탭2: 공고 소식 ────────────────────────────────────────────── -->
+    <div id="tab-bids" class="tab-pane">
+      <section class="kpi-row">
+        <div class="kpi"><div class="kpi-val" id="bidKpiTotal">-</div><div class="kpi-lbl">전체 공고</div></div>
+        <div class="kpi"><div class="kpi-val" id="bidKpiKsqa">-</div><div class="kpi-lbl">직업능력심사평가원</div></div>
+        <div class="kpi"><div class="kpi-val" id="bidKpiMoel">-</div><div class="kpi-lbl">고용노동부</div></div>
+        <div class="kpi"><div class="kpi-val" id="bidKpiG2b">-</div><div class="kpi-lbl">나라장터</div></div>
+      </section>
+
+      <section class="filter-row">
+        <label for="bidFilterSource">출처:</label>
+        <select id="bidFilterSource">
+          <option value="">전체</option>
+          <option value="KSQA">직업능력심사평가원</option>
+          <option value="MOEL">고용노동부</option>
+          <option value="G2B">나라장터</option>
+        </select>
+        <label for="bidFilterKw">검색:</label>
+        <input id="bidFilterKw" type="search" placeholder="제목 키워드..." />
+        <label class="chk"><input type="checkbox" id="bidFilterNew" /> 최근 7일</label>
+      </section>
+
+      <section class="list-section">
+        <div class="list-head">
+          <h2 class="sec-title">최신 공고</h2>
+          <span id="bidListCnt" class="cnt"></span>
+        </div>
+        <div id="bidList" class="bid-list"></div>
+        <p class="note">매일 09:00 KST 자동 업데이트 · 출처: 직업능력심사평가원, 고용노동부, 나라장터<br>
+        <span class="status-badge prog">신청접수</span> 접수 중 &nbsp;
+        <span class="status-badge wait">안내</span> 사전 안내 &nbsp;
+        <span class="status-badge nostats">접수마감</span> 마감 &nbsp;
+        <span class="bid-new-dot">●</span> 최근 7일 신규</p>
+      </section>
+    </div><!-- /#tab-bids -->
   </main>
 
   <footer class="footer">

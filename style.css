@@ -71,6 +71,57 @@ a:hover { text-decoration: underline; }
 @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
 .meta-text { font-size: 11px; opacity: .7; }
 
+/* ─── 탭 네비게이션 ───────────────────────────────────────────────── */
+.tabs {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tabs-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 4px;
+}
+.tab {
+  position: relative;
+  padding: 14px 22px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  transition: color .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab:hover { color: var(--primary); }
+.tab.active {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  margin-bottom: -1px;
+}
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.tab-pane { display: none; flex-direction: column; gap: 24px; }
+.tab-pane.active { display: flex; }
+
 /* ─── 로딩 ────────────────────────────────────────────────────────── */
 .loading-screen {
   display: flex;
@@ -253,6 +304,100 @@ tr.row-prog { background: #ebf8ff; }
 
 .note { font-size: 11px; color: var(--text3); margin-top: 16px; line-height: 1.8; }
 
+/* ─── 공고 카드 ───────────────────────────────────────────────────── */
+.filter-row .chk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+}
+.filter-row input[type="search"] {
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--card);
+}
+.bid-list { display: flex; flex-direction: column; gap: 8px; }
+.bid-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: border-color .15s, box-shadow .15s;
+  position: relative;
+}
+.bid-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0,102,204,.08);
+}
+.bid-card.is-new::before {
+  content: '';
+  position: absolute;
+  top: 14px; left: -1px;
+  width: 3px;
+  height: calc(100% - 28px);
+  background: var(--accent);
+  border-radius: 2px;
+}
+.bid-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.bid-source {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.bid-source.ksqa { background: #e6f0fa; color: #0066cc; }
+.bid-source.moel { background: #f0e6fa; color: #6b46c1; }
+.bid-source.g2b  { background: #ffe8d9; color: #c05621; }
+.bid-cat {
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.bid-date { margin-left: auto; }
+.bid-deadline {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.bid-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text1);
+  line-height: 1.45;
+  display: block;
+  margin-bottom: 4px;
+}
+.bid-title:hover { color: var(--primary); }
+.bid-sub {
+  font-size: 12px;
+  color: var(--text3);
+}
+.bid-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text3);
+  font-size: 13px;
+}
+.bid-new-dot { color: var(--accent); font-weight: 700; }
+
+.status-badge.done { background: #c6f6d5; color: #276749; }
+
 /* ─── 차트 ────────────────────────────────────────────────────────── */
 .chart-section {
   background: var(--card);
@@ -285,4 +430,8 @@ tr.row-prog { background: #ebf8ff; }
   .chart-row { grid-template-columns: 1fr; }
   .cg-tags { display: none; }
   .cg.open .cg-tags { display: flex; }
+  .tab { padding: 12px 16px; font-size: 13px; }
+  .tabs-inner { padding: 0 12px; }
+  .bid-meta { font-size: 10px; }
+  .bid-date { margin-left: 0; width: 100%; }
 }
