@@ -6,6 +6,9 @@
   "scripts": {
     "collect": "node scripts/collect.js"
   },
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
     "node-fetch": "^2.7.0"
   }
