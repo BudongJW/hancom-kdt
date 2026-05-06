@@ -262,28 +262,19 @@ async function fetchG2bBids(apiKey) {
 
   // 용역 입찰공고
   const url = `${G2B_BASE}/getBidPblancListInfoServc?${params}`;
-  let data;
-  try {
-    const res = await tryFetch(url);
-    const text = await res.text();
-    if (!res.ok) {
-      // 본문에 사유가 들어있는 경우 (XML/JSON 모두 가능)
-      console.error(
-        `[g2b] HTTP ${res.status}: ${text.slice(0, 400).replace(/\s+/g, ' ')}`
-      );
-      return [];
-    }
-    if (text.trim().startsWith('<')) {
-      console.error(
-        `[g2b] XML 에러 응답: ${text.slice(0, 400).replace(/\s+/g, ' ')}`
-      );
-      return [];
-    }
-    data = JSON.parse(text);
-  } catch (e) {
-    console.error(`[g2b] 호출 실패: ${e.message}`);
-    return [];
+  const res = await tryFetch(url);
+  const text = await res.text();
+  if (!res.ok) {
+    throw new Error(
+      `HTTP ${res.status} — ${text.slice(0, 200).replace(/\s+/g, ' ')}`
+    );
   }
+  if (text.trim().startsWith('<')) {
+    throw new Error(
+      `XML 에러 응답 — ${text.slice(0, 200).replace(/\s+/g, ' ')}`
+    );
+  }
+  const data = JSON.parse(text);
 
   const items = data?.response?.body?.items || [];
   const list = Array.isArray(items) ? items : items.item ? [].concat(items.item) : [];
@@ -312,51 +303,71 @@ async function fetchG2bBids(apiKey) {
 // ─── ⑤ 통합 ───────────────────────────────────────────────────────────
 async function collectAll() {
   const apiKey = process.env.G2B_API_KEY;
-  const sources = [];
+  const outPath = path.join(__dirname, '..', 'data', 'bids.json');
 
-  console.log('[bids] KSQA 심사평가공고 수집...');
+  // 기존 데이터 로드 (소스별 실패 시 fallback 용)
+  let existing = { bids: [] };
   try {
-    const a = await fetchKsqaEval();
-    console.log(`  ${a.length}건`);
-    sources.push(...a);
-  } catch (e) {
-    console.error(`  실패: ${e.message}`);
+    if (fs.existsSync(outPath)) {
+      existing = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    }
+  } catch {
+    /* 무시 */
   }
+  const existingBySource = (src) =>
+    (existing.bids || []).filter((b) => b.source === src);
 
-  console.log('[bids] KSQA 공지사항 수집...');
+  // 소스별 결과: null = 시도 후 실패 (기존 데이터 유지), 배열 = 성공 (덮어쓰기)
+  const results = { KSQA: null, MOEL: null, G2B: null };
+
+  console.log('[bids] KSQA 심사평가공고 + 공지사항 수집...');
   try {
-    const a = await fetchKsqaNotice();
-    console.log(`  ${a.length}건`);
-    sources.push(...a);
+    const ev = await fetchKsqaEval();
+    const no = await fetchKsqaNotice();
+    results.KSQA = [...ev, ...no];
+    console.log(`  KSQA ${results.KSQA.length}건 (심사평가 ${ev.length} + 공지 ${no.length})`);
   } catch (e) {
-    console.error(`  실패: ${e.message}`);
+    console.error(`  KSQA 실패: ${e.message}`);
   }
 
   console.log('[bids] 고용노동부 공지사항 수집 (키워드 필터)...');
   try {
-    const a = await fetchMoelNotices();
-    console.log(`  ${a.length}건 (필터 후)`);
-    sources.push(...a);
+    results.MOEL = await fetchMoelNotices();
+    console.log(`  MOEL ${results.MOEL.length}건 (필터 후)`);
   } catch (e) {
-    console.error(`  실패: ${e.message}`);
+    console.error(`  MOEL 실패: ${e.message}`);
   }
 
   if (apiKey) {
     console.log('[bids] 나라장터 Open API 수집 (키워드 필터)...');
     try {
-      const a = await fetchG2bBids(apiKey);
-      console.log(`  ${a.length}건 (필터 후)`);
-      sources.push(...a);
+      results.G2B = await fetchG2bBids(apiKey);
+      console.log(`  G2B ${results.G2B.length}건 (필터 후)`);
     } catch (e) {
-      console.error(`  실패: ${e.message}`);
+      console.error(`  G2B 실패: ${e.message}`);
     }
   } else {
     console.log('[bids] G2B_API_KEY 미설정 — 나라장터 스킵');
+    results.G2B = []; // 키 없으면 명시적 비움 (덮어쓰기 OK)
+  }
+
+  // 각 소스 병합: 성공이면 새 데이터, 실패면 기존 유지
+  const merged = [];
+  for (const src of ['KSQA', 'MOEL', 'G2B']) {
+    if (results[src] !== null) {
+      merged.push(...results[src]);
+    } else {
+      const keep = existingBySource(src);
+      if (keep.length) {
+        console.log(`  [keep] ${src}: 기존 ${keep.length}건 유지 (이번 수집 실패)`);
+        merged.push(...keep);
+      }
+    }
   }
 
   // 중복 제거 (동일 url 또는 동일 id)
   const seen = new Set();
-  const deduped = sources.filter((b) => {
+  const deduped = merged.filter((b) => {
     const key = b.url || b.id;
     if (seen.has(key)) return false;
     seen.add(key);
