@@ -4,8 +4,9 @@
  * 1) 직업능력심사평가원(KSQA) — 심사평가공고 + 공지사항
  * 2) 고용노동부(MOEL) — 공지사항 (키워드 필터)
  * 3) 나라장터(G2B) Open API — 용역 입찰공고 (키워드 필터, G2B_API_KEY 필수)
+ * 4) 정보통신기획평가원(IITP) — 공지사항/보도자료/사업공고 (키워드 필터)
  *
- * 결과: data/bids.json
+ * 결과: data/bids.json (만료된 공고는 자동 정리)
  */
 
 const fetch = require('node-fetch');
@@ -15,6 +16,15 @@ const path = require('path');
 const KSQA_BASE = 'https://www.ksqa.or.kr';
 const MOEL_BASE = 'https://www.moel.go.kr';
 const G2B_BASE = 'https://apis.data.go.kr/1230000/ad/BidPublicInfoService';
+const IITP_BASE = 'https://www.iitp.kr';
+
+// 만료 정책
+const EXPIRY = {
+  // 게시 N일 후 자동 만료 (최후 방어선)
+  maxAgeDays: 365,
+  // 상태가 '결과발표' / '접수마감' 인 경우 게시 N일 후 만료
+  finishedAgeDays: 14,
+};
 
 // 훈련/교육 관련 키워드 (MOEL/G2B 필터링용)
 const KEYWORDS = [
@@ -289,7 +299,91 @@ async function fetchMoelNotices() {
   return all;
 }
 
-// ─── ④ 나라장터 Open API (용역 입찰공고, 키워드 필터) ──────────────────
+// ─── ④ IITP — 공지/보도자료/사업공고 (Vue API 직접 호출) ──────────────
+const IITP_BOARDS = [
+  { seq: 37, refPath: '/web/lay1/bbs/S1T12C37/A/7/list.do', category: '공지사항' },
+  { seq: 38, refPath: '/web/lay1/bbs/S1T12C38/A/8/list.do', category: '보도자료' },
+  { seq: 31, refPath: '/web/lay1/bbs/S1T11C31/A/4/list.do', category: '사업공고' },
+];
+
+async function fetchIitpBoard(board) {
+  const refererUrl = `${IITP_BASE}${board.refPath}`;
+  // 1) 페이지 fetch — CSRF 토큰 + 쿠키 획득
+  const pageRes = await tryFetchOk(refererUrl);
+  const html = await pageRes.text();
+  const csrf = html.match(
+    /<meta[^>]*name=["']_csrf["'][^>]*content=["']([^"']+)["']/
+  )?.[1];
+  const csrfHeader =
+    html.match(/<meta[^>]*name=["']_csrf_header["'][^>]*content=["']([^"']+)["']/)?.[1] ||
+    'X-CSRF-TOKEN';
+  const cookies = pageRes.headers.raw()['set-cookie']
+    ?.map((c) => c.split(';')[0])
+    .join('; ');
+
+  // 2) API 호출
+  const apiUrl = `${IITP_BASE}/board-svc/api/bbs/A/list.do`;
+  const res = await tryFetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+      Referer: refererUrl,
+      ...(csrf ? { [csrfHeader]: csrf } : {}),
+      ...(cookies ? { Cookie: cookies } : {}),
+    },
+    body: JSON.stringify({
+      cms_menu_seq: board.seq,
+      cpage: 1,
+      rows: 30,
+      keyword: '',
+      condition: '',
+      sort: 'latest',
+    }),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  if (data.result !== 'SUCCESS') throw new Error(`API result: ${data.result}`);
+
+  // notice_list (고정 상단) + list (일반) 통합
+  const allItems = [...(data.notice_list || []), ...(data.list || [])];
+  const items = [];
+  for (const it of allItems) {
+    const title = decode(it.title || '');
+    if (!title || !matchesKeyword(title)) continue;
+    const articleSeq = it.article_seq;
+    const detailUrl = `${IITP_BASE}${board.refPath.replace('/list.do', '/view.do')}?article_seq=${articleSeq}`;
+    items.push({
+      id: `iitp-${board.seq}-${articleSeq}`,
+      source: 'IITP',
+      sourceLabel: '정보통신기획평가원',
+      category: board.category,
+      subCategory: it.reg_nm || null,
+      title,
+      postedDate: parseKoDate(it.reg_dt),
+      deadline: null,
+      status: null,
+      url: detailUrl,
+    });
+  }
+  return items;
+}
+
+async function fetchIitpAll() {
+  const all = [];
+  for (const b of IITP_BOARDS) {
+    try {
+      const items = await fetchIitpBoard(b);
+      all.push(...items);
+      await sleep(400);
+    } catch (e) {
+      console.error(`  IITP ${b.category} 실패: ${e.message}`);
+    }
+  }
+  return all;
+}
+
+// ─── ⑤ 나라장터 Open API (용역 입찰공고, 키워드 필터) ──────────────────
 async function fetchG2bBids(apiKey) {
   // 최근 30일 등록건 조회
   const now = new Date();
@@ -348,7 +442,27 @@ async function fetchG2bBids(apiKey) {
   return result;
 }
 
-// ─── ⑤ 통합 ───────────────────────────────────────────────────────────
+// ─── 만료 판단 ────────────────────────────────────────────────────────
+function isExpired(bid, todayStr, nowMs) {
+  // 1) 명시 마감일이 지남
+  if (bid.deadline && bid.deadline < todayStr) return true;
+  // 2) 상태가 '결과발표' / '접수마감' 이고 게시 N일 이상 지남
+  if (
+    bid.postedDate &&
+    (bid.status === '결과발표' || bid.status === '접수마감')
+  ) {
+    const postedMs = new Date(bid.postedDate).getTime();
+    if ((nowMs - postedMs) / 86400000 > EXPIRY.finishedAgeDays) return true;
+  }
+  // 3) 매우 오래된 공고 (1년 이상)
+  if (bid.postedDate) {
+    const postedMs = new Date(bid.postedDate).getTime();
+    if ((nowMs - postedMs) / 86400000 > EXPIRY.maxAgeDays) return true;
+  }
+  return false;
+}
+
+// ─── ⑥ 통합 ───────────────────────────────────────────────────────────
 async function collectAll() {
   const apiKey = (process.env.G2B_API_KEY || '').trim();
   const outPath = path.join(__dirname, '..', 'data', 'bids.json');
@@ -366,7 +480,7 @@ async function collectAll() {
     (existing.bids || []).filter((b) => b.source === src);
 
   // 소스별 결과: null = 시도 후 실패 (기존 데이터 유지), 배열 = 성공 (덮어쓰기)
-  const results = { KSQA: null, MOEL: null, G2B: null };
+  const results = { KSQA: null, MOEL: null, G2B: null, IITP: null };
 
   console.log('[bids] KSQA 심사평가공고 + 공지사항 수집...');
   try {
@@ -386,6 +500,14 @@ async function collectAll() {
     console.error(`  MOEL 실패: ${e.message}`);
   }
 
+  console.log('[bids] IITP 공지/보도자료/사업공고 수집 (키워드 필터)...');
+  try {
+    results.IITP = await fetchIitpAll();
+    console.log(`  IITP ${results.IITP.length}건 (필터 후)`);
+  } catch (e) {
+    console.error(`  IITP 실패: ${e.message}`);
+  }
+
   if (apiKey) {
     console.log('[bids] 나라장터 Open API 수집 (키워드 필터)...');
     try {
@@ -401,7 +523,7 @@ async function collectAll() {
 
   // 각 소스 병합: 성공이면 새 데이터, 실패면 기존 유지
   const merged = [];
-  for (const src of ['KSQA', 'MOEL', 'G2B']) {
+  for (const src of ['KSQA', 'MOEL', 'IITP', 'G2B']) {
     if (results[src] !== null) {
       merged.push(...results[src]);
     } else {
@@ -413,9 +535,19 @@ async function collectAll() {
     }
   }
 
+  // 만료된 공고 자동 정리
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const nowMs = Date.now();
+  const beforeExpiry = merged.length;
+  const active = merged.filter((b) => !isExpired(b, todayStr, nowMs));
+  const expiredCount = beforeExpiry - active.length;
+  if (expiredCount > 0) {
+    console.log(`  [expire] ${expiredCount}건 정리 (마감일 경과/오래된 공고)`);
+  }
+
   // 중복 제거 (동일 url 또는 동일 id)
   const seen = new Set();
-  const deduped = merged.filter((b) => {
+  const deduped = active.filter((b) => {
     const key = b.url || b.id;
     if (seen.has(key)) return false;
     seen.add(key);
@@ -444,6 +576,7 @@ async function main() {
       sources: {
         ksqa: bids.filter((b) => b.source === 'KSQA').length,
         moel: bids.filter((b) => b.source === 'MOEL').length,
+        iitp: bids.filter((b) => b.source === 'IITP').length,
         g2b: bids.filter((b) => b.source === 'G2B').length,
       },
       keywords: KEYWORDS,
@@ -454,7 +587,7 @@ async function main() {
     const outPath = path.join(__dirname, '..', 'data', 'bids.json');
     fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
     console.log(
-      `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / G2B ${payload.sources.g2b}) → ${outPath}`
+      `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / G2B ${payload.sources.g2b}) → ${outPath}`
     );
   } catch (e) {
     console.error(`[error] ${e.message}`);

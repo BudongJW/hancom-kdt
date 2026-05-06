@@ -174,6 +174,7 @@ function renderBids() {
   document.getElementById('bidKpiTotal').textContent = allBids.length;
   document.getElementById('bidKpiKsqa').textContent = allBids.filter((b) => b.source === 'KSQA').length;
   document.getElementById('bidKpiMoel').textContent = allBids.filter((b) => b.source === 'MOEL').length;
+  document.getElementById('bidKpiIitp').textContent = allBids.filter((b) => b.source === 'IITP').length;
   document.getElementById('bidKpiG2b').textContent = allBids.filter((b) => b.source === 'G2B').length;
 
   const list = document.getElementById('bidList');

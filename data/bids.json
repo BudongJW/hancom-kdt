@@ -156,6 +156,18 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50857&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "iitp-31-4446",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "사업공고",
+      "subCategory": "김*진",
+      "title": "지역 AI․ICT 인재양성 현장 간담회 개최",
+      "postedDate": "2026-04-24",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T11C31/A/4/view.do?article_seq=4446"
+    },
+    {
       "id": "ksqa-HP010101-50717",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -252,34 +264,6 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50598&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-50427",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "K-디지털 트레이닝",
-      "type": "정기",
-      "title": "2026년도 K-디지털 트레이닝 AI 캠퍼스 선정 결과 공고",
-      "postedDate": "2026-04-14",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50427&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-50407",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "직업능력개발훈련심사평가",
-      "type": "정기",
-      "title": "2027년 운영 국가기간･전략산업직종훈련 지역･직종별 배정 인원 안내",
-      "postedDate": "2026-04-13",
-      "deadline": "2026-04-27",
-      "status": "접수마감",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50407&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010201-48947",
@@ -406,20 +390,6 @@
       "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01442421&bidPbancOrd=000"
     },
     {
-      "id": "ksqa-HP010201-50163",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "프로젝트 평가",
-      "type": "정기",
-      "title": "2026년 5월 KDT/기맞 프로젝트평가 신청 안내",
-      "postedDate": "2026-04-01",
-      "deadline": "2026-04-08",
-      "status": "접수마감",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50163&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010201-50105",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -434,20 +404,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50105&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-50107",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "훈련이수자평가",
-      "type": "정기",
-      "title": "2026년도 제1차 훈련이수자평가 결과 및 이의신청 안내",
-      "postedDate": "2026-03-31",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50107&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010101-50113",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -460,6 +416,18 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50113&pid=HP010101&pageIndex=2&searchCnd=&searchWrd=&category_board="
+    },
+    {
+      "id": "iitp-37-4409",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "이*미",
+      "title": "2026년도 지역지능화혁신인재양성 신규 공고 사업설명회(4.2) 발표자료 게시",
+      "postedDate": "2026-03-31",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4409"
     },
     {
       "id": "ksqa-HP010101-50117",
@@ -490,6 +458,18 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50115&pid=HP010101&pageIndex=2&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "iitp-37-4405",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "이*옥",
+      "title": "2026년 AI디지털기반 창업인재양성 사업설명회(3.26) 발표자료 게시",
+      "postedDate": "2026-03-27",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4405"
+    },
+    {
       "id": "ksqa-HP010101-50039",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -516,20 +496,6 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50047&pid=HP010101&pageIndex=2&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49983",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "프로젝트 평가",
-      "type": "정기",
-      "title": "2026년 1월 K-디지털 트레이닝 프로젝트평가 결과 안내",
-      "postedDate": "2026-03-20",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49983&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010101-50035",
@@ -658,18 +624,28 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=49939&pid=HP010101&pageIndex=2&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49947",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "원격훈련과정심사",
-      "type": "정기",
-      "title": "2026년 제1차 원격훈련과정 심사결과 공고",
-      "postedDate": "2026-03-13",
+      "id": "iitp-37-4379",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "박*호",
+      "title": "2026년도 학･석사연계 ICT핵심인재양성 신규 공고 사업 설명회(`26.3.5(목)) 자료 게시",
+      "postedDate": "2026-03-09",
       "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49947&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4379"
+    },
+    {
+      "id": "iitp-37-4375",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "박*호",
+      "title": "2026년 산학연계 AI반도체 선도기술인재양성 신규사업 설명회(3.5(목)) 자료 게시",
+      "postedDate": "2026-03-06",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4375"
     },
     {
       "id": "ksqa-HP010101-49839",
@@ -686,18 +662,16 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=49839&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49773",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "프로젝트 평가",
-      "type": "정기",
-      "title": "2026년 4월 KDT 프로젝트평가 신청 안내",
-      "postedDate": "2026-03-03",
-      "deadline": "2026-03-10",
-      "status": "접수마감",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49773&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
+      "id": "iitp-37-4372",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "박*호",
+      "title": "2026년도 인공지능혁신인재양성 신규사업 설명회 자료 및 주요 질의 관련 안내사항 공지",
+      "postedDate": "2026-03-04",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4372"
     },
     {
       "id": "ksqa-HP010201-49771",
@@ -728,34 +702,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49767&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49805",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "훈련이수자평가",
-      "type": "정기",
-      "title": "2025년도 제12차~제14차 훈련이수자평가 결과 및 이의신청 안내",
-      "postedDate": "2026-02-27",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49805&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49743",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "원격훈련과정심사",
-      "type": "특별",
-      "title": "2026년 중소기업 근로자 AI 기초 융합훈련 심사결과 공고",
-      "postedDate": "2026-02-27",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49743&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010101-49795",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -784,6 +730,18 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=49721&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "iitp-37-4352",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "공지사항",
+      "subCategory": "박*호",
+      "title": "2026년도 생성AI선도인재양성 신규사업 설명회(2.12(목)) 자료 게시",
+      "postedDate": "2026-02-13",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T12C37/A/7/view.do?article_seq=4352"
+    },
+    {
       "id": "ksqa-HP010201-49499",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -796,48 +754,6 @@
       "status": "안내",
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49499&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49497",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "프로젝트 평가",
-      "type": "정기",
-      "title": "2026년 3월 KDT 프로젝트평가 신청 안내",
-      "postedDate": "2026-02-02",
-      "deadline": "2026-02-09",
-      "status": "접수마감",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49497&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49525",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "훈련이수자평가",
-      "type": "정기",
-      "title": "2025년도 제11차 훈련이수자평가 결과 및 이의신청 안내",
-      "postedDate": "2026-01-30",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49525&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49503",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "기업 맞춤형 국기",
-      "type": "정기",
-      "title": "2025년(2023년 선정) 기업 맞춤형 국가기간전략산업직종훈련 성과평가 ...",
-      "postedDate": "2026-01-30",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49503&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010201-49443",
@@ -880,20 +796,6 @@
       "status": "안내",
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49443&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49471",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "일반고, 과정평가형, 중앙부처 등",
-      "type": "정기",
-      "title": "[고용노동부 공고 제2026-68호] 2026년도 시행 과정평가형 국가기 ...",
-      "postedDate": "2026-01-29",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49471&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010101-49473",
@@ -952,34 +854,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=49343&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49341",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "K-디지털 트레이닝",
-      "type": "정기",
-      "title": "2025년도 K-디지털 트레이닝 성과평가 최종 결과 공고",
-      "postedDate": "2026-01-23",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49341&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49339",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "프로젝트 평가",
-      "type": "정기",
-      "title": "2025년 11~12월 K-디지털 트레이닝 프로젝트평가 결과 안내",
-      "postedDate": "2026-01-23",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49339&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010101-49319",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1036,20 +910,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49269&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49149",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "K-디지털 트레이닝",
-      "type": "정기",
-      "title": "2026년도 K-디지털 트레이닝 AI 캠퍼스 심사평가 계획 공고",
-      "postedDate": "2026-01-19",
-      "deadline": "2026-01-27",
-      "status": "접수마감",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49149&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010101-49201",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1092,20 +952,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=49201&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "ksqa-HP010201-49937",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "원격훈련과정심사",
-      "type": "정기",
-      "title": "AI 기초체력훈련(Pre AI-Campus) 심사 결과 공고",
-      "postedDate": "2026-01-02",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49937&pid=HP010201&pageIndex=2&searchCnd=&searchWrd=&category_board="
-    },
-    {
       "id": "ksqa-HP010201-49001",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1118,34 +964,6 @@
       "status": "안내",
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49001&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-49003",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "직업능력개발훈련심사평가",
-      "type": "정기",
-      "title": "2025년 선정 국가기간전략산업직종훈련과정 사업 유형 전환 결과 공고",
-      "postedDate": "2025-12-31",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=49003&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-48995",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "직업능력개발훈련심사평가",
-      "type": "정기",
-      "title": "2025년도 직업능력개발훈련 심사평가 훈련과정 반납 결과 공고",
-      "postedDate": "2025-12-31",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=48995&pid=HP010201&pageIndex=3&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010201-48631",
@@ -1230,11 +1048,24 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=48633&pid=HP010101&pageIndex=3&searchCnd=&searchWrd=&category_board="
+    },
+    {
+      "id": "iitp-31-4171",
+      "source": "IITP",
+      "sourceLabel": "정보통신기획평가원",
+      "category": "사업공고",
+      "subCategory": "김*진",
+      "title": "과기정통부·IITP, 세계 톱대학과 AI 인재양성 글로벌 동맹 구축",
+      "postedDate": "2025-10-16",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.iitp.kr/web/lay1/bbs/S1T11C31/A/4/view.do?article_seq=4171"
     }
   ],
   "sources": {
-    "ksqa": 86,
+    "ksqa": 67,
     "moel": 1,
+    "iitp": 8,
     "g2b": 1
   },
   "keywords": [
@@ -1263,6 +1094,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-06T08:31:22.763Z",
-  "count": 88
+  "updatedAt": "2026-05-06T08:42:26.387Z",
+  "count": 77
 }
