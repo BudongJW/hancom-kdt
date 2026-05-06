@@ -121,19 +121,46 @@ function extractHref(rowHtml) {
 }
 
 // ─── ① KSQA 심사평가공고 (가장 핵심: 교육과정 제안 공고 다수) ──────────
-async function fetchKsqaEval() {
-  const url = `${KSQA_BASE}/?pid=HP010201`;
-  const res = await tryFetchOk(url);
-  const html = await res.text();
-  return parseKsqaPage(html, 'HP010201', '심사평가공고');
+// 최근 N 페이지 수집 (페이지당 15행, 상위 5행은 고정 — nttId 기반 dedup으로 자동 중복 제거)
+const KSQA_MAX_PAGES = 3;
+
+async function fetchKsqaPages(pid, bbsId, categoryLabel) {
+  const all = [];
+  for (let page = 1; page <= KSQA_MAX_PAGES; page++) {
+    const params = new URLSearchParams({
+      bbsId,
+      nttId: '0',
+      bbsTyCode: 'BBST03',
+      bbsAttrbCode: 'BBSA03',
+      authFlag: '',
+      pageIndex: String(page),
+      category_board: '',
+      pid,
+      bbsMode: 'list',
+    });
+    const url = `${KSQA_BASE}/index.do?${params}`;
+    try {
+      const res = await tryFetchOk(url);
+      const html = await res.text();
+      const items = parseKsqaPage(html, pid, categoryLabel);
+      all.push(...items);
+      await sleep(300);
+    } catch (e) {
+      // 한 페이지 실패해도 이전 페이지는 사용
+      if (page === 1) throw e;
+      console.error(`  KSQA ${categoryLabel} p${page} 실패: ${e.message} (이전 페이지까지 ${all.length}건 수집)`);
+      break;
+    }
+  }
+  return all;
 }
 
-// ─── ② KSQA 공지사항 ─────────────────────────────────────────────────
+async function fetchKsqaEval() {
+  return fetchKsqaPages('HP010201', 'BBSMSTR_000000000031', '심사평가공고');
+}
+
 async function fetchKsqaNotice() {
-  const url = `${KSQA_BASE}/?pid=HP010101`;
-  const res = await tryFetchOk(url);
-  const html = await res.text();
-  return parseKsqaPage(html, 'HP010101', '공지사항');
+  return fetchKsqaPages('HP010101', 'BBSMSTR_000000000021', '공지사항');
 }
 
 function parseKsqaPage(html, pid, categoryLabel) {
