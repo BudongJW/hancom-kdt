@@ -17,6 +17,7 @@ const KSQA_BASE = 'https://www.ksqa.or.kr';
 const MOEL_BASE = 'https://www.moel.go.kr';
 const G2B_BASE = 'https://apis.data.go.kr/1230000/ad/BidPublicInfoService';
 const IITP_BASE = 'https://www.iitp.kr';
+const NIPA_BASE = 'https://www.nipa.kr';
 
 // 만료 정책
 const EXPIRY = {
@@ -383,6 +384,113 @@ async function fetchIitpAll() {
   return all;
 }
 
+// ─── ⑤ NIPA — 공지사항/사업공고/입찰공고 ────────────────────────────────
+const NIPA_BOARDS = [
+  { path: '/home/2-1', category: '공지사항', maxPages: 2, schema: 'standard' },
+  { path: '/home/2-2', category: '사업공고', maxPages: 3, schema: 'business' }, // D-day, 신청기간 포함
+  { path: '/home/2-3', category: '입찰공고', maxPages: 2, schema: 'standard' },
+];
+
+// "신청기간 : YYYY-MM-DD HH:MM ~ YYYY-MM-DD HH:MM" → end date
+function extractNipaDeadline(text) {
+  const m = text.match(/신청기간[\s:]*\d{4}[-.]\d{1,2}[-.]\d{1,2}[^~]*~\s*(\d{4}[-.]\d{1,2}[-.]\d{1,2})/);
+  return m ? parseKoDate(m[1]) : null;
+}
+
+async function fetchNipaBoard(board) {
+  const all = [];
+  for (let page = 1; page <= board.maxPages; page++) {
+    const url = `${NIPA_BASE}${board.path}${page > 1 ? `?curPage=${page}` : ''}`;
+    let html;
+    try {
+      const res = await tryFetchOk(url);
+      html = await res.text();
+    } catch (e) {
+      if (page === 1) throw e;
+      console.error(`  NIPA ${board.category} p${page} 실패: ${e.message} (이전 페이지까지 ${all.length}건)`);
+      break;
+    }
+    const tableMatch = html.match(/<table[^>]*>[\s\S]*?<\/table>/i);
+    if (!tableMatch) break;
+    const rows = tableMatch[0].match(/<tr[\s\S]*?<\/tr>/gi) || [];
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tds = row.match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
+      if (tds.length < 4) continue;
+      const cells = tds.map((td) => decode(strip(td)));
+
+      let title, postedDate, deadline = null, status = null, subCategory = null, href = null;
+
+      if (board.schema === 'business') {
+        // 5 cols: 번호, D-day, 제목셀, 작성자, 작성일
+        const dDay = cells[1] || '';
+        const titleCell = cells[2] || '';
+        // [카테고리] --> 제목 ... 신청기간 : ...
+        const catM = titleCell.match(/^\[([^\]]+)\]/);
+        if (catM) subCategory = catM[1];
+        // 제목: [카테고리] --> 다음부터 "신청기간" 직전까지
+        let cleanTitle = titleCell
+          .replace(/^\[[^\]]+\]\s*-+>?\s*/, '')
+          .replace(/-+>\s*/g, '')
+          .split('신청기간')[0]
+          .trim();
+        // 사업명 중복 제거 (예: "...공고 사업명" 형태) — 휴리스틱
+        if (cleanTitle.length > 80) cleanTitle = cleanTitle.slice(0, 200);
+        title = cleanTitle;
+        deadline = extractNipaDeadline(titleCell);
+        postedDate = parseKoDate(cells[4]);
+        if (dDay === '종료' || dDay === '마감') status = '접수마감';
+        else if (/^D-\d+/.test(dDay)) status = '신청접수';
+        href = tds[2].match(/href="([^"]+)"/)?.[1];
+      } else {
+        // 6 cols: 번호, 제목, 작성자, 파일, 조회, 작성일
+        title = (cells[1] || '').replace(/-+>\s*/g, '').trim();
+        postedDate = parseKoDate(cells[5]);
+        href = tds[1].match(/href="([^"]+)"/)?.[1];
+      }
+
+      if (!title) continue;
+      if (!matchesKeyword(title)) continue;
+      if (!href) continue;
+
+      const url2 = href.startsWith('http')
+        ? href
+        : href.startsWith('/')
+        ? `${NIPA_BASE}${href}`
+        : `${NIPA_BASE}${board.path}/${href}`;
+      const idM = url2.match(/(\d+)$/);
+      const id = idM ? idM[1] : `${board.path}-p${page}-${i}`;
+      all.push({
+        id: `nipa-${id}`,
+        source: 'NIPA',
+        sourceLabel: '정보통신산업진흥원',
+        category: board.category,
+        subCategory,
+        title,
+        postedDate,
+        deadline,
+        status,
+        url: url2,
+      });
+    }
+    await sleep(400);
+  }
+  return all;
+}
+
+async function fetchNipaAll() {
+  const all = [];
+  for (const b of NIPA_BOARDS) {
+    try {
+      const items = await fetchNipaBoard(b);
+      all.push(...items);
+    } catch (e) {
+      console.error(`  NIPA ${b.category} 실패: ${e.message}`);
+    }
+  }
+  return all;
+}
+
 // ─── ⑤ 나라장터 Open API (용역 입찰공고, 키워드 필터) ──────────────────
 async function fetchG2bBids(apiKey) {
   // 최근 30일 등록건 조회
@@ -480,7 +588,7 @@ async function collectAll() {
     (existing.bids || []).filter((b) => b.source === src);
 
   // 소스별 결과: null = 시도 후 실패 (기존 데이터 유지), 배열 = 성공 (덮어쓰기)
-  const results = { KSQA: null, MOEL: null, G2B: null, IITP: null };
+  const results = { KSQA: null, MOEL: null, G2B: null, IITP: null, NIPA: null };
 
   console.log('[bids] KSQA 심사평가공고 + 공지사항 수집...');
   try {
@@ -508,6 +616,14 @@ async function collectAll() {
     console.error(`  IITP 실패: ${e.message}`);
   }
 
+  console.log('[bids] NIPA 공지/사업공고/입찰 수집 (키워드 필터)...');
+  try {
+    results.NIPA = await fetchNipaAll();
+    console.log(`  NIPA ${results.NIPA.length}건 (필터 후)`);
+  } catch (e) {
+    console.error(`  NIPA 실패: ${e.message}`);
+  }
+
   if (apiKey) {
     console.log('[bids] 나라장터 Open API 수집 (키워드 필터)...');
     try {
@@ -523,7 +639,7 @@ async function collectAll() {
 
   // 각 소스 병합: 성공이면 새 데이터, 실패면 기존 유지
   const merged = [];
-  for (const src of ['KSQA', 'MOEL', 'IITP', 'G2B']) {
+  for (const src of ['KSQA', 'MOEL', 'IITP', 'NIPA', 'G2B']) {
     if (results[src] !== null) {
       merged.push(...results[src]);
     } else {
@@ -577,6 +693,7 @@ async function main() {
         ksqa: bids.filter((b) => b.source === 'KSQA').length,
         moel: bids.filter((b) => b.source === 'MOEL').length,
         iitp: bids.filter((b) => b.source === 'IITP').length,
+        nipa: bids.filter((b) => b.source === 'NIPA').length,
         g2b: bids.filter((b) => b.source === 'G2B').length,
       },
       keywords: KEYWORDS,
@@ -587,7 +704,7 @@ async function main() {
     const outPath = path.join(__dirname, '..', 'data', 'bids.json');
     fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
     console.log(
-      `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / G2B ${payload.sources.g2b}) → ${outPath}`
+      `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / NIPA ${payload.sources.nipa} / G2B ${payload.sources.g2b}) → ${outPath}`
     );
   } catch (e) {
     console.error(`[error] ${e.message}`);
