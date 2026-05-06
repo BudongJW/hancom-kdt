@@ -74,22 +74,29 @@ function matchesKeyword(text) {
   return KEYWORDS.some((kw) => t.includes(kw.toLowerCase()));
 }
 
-async function tryFetch(url, opts = {}, attempts = 3) {
+async function tryFetch(url, opts = {}, attempts = 4) {
+  let lastError;
   for (let i = 0; i < attempts; i++) {
     try {
       const res = await fetch(url, {
-        headers: HEADERS,
-        timeout: 20000,
+        timeout: 45000,
         ...opts,
         headers: { ...HEADERS, ...(opts.headers || {}) },
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // 호출자에서 status 검증 (401/403 등 에러 본문 활용 위함)
       return res;
     } catch (e) {
-      if (i === attempts - 1) throw e;
-      await sleep(1500 * (i + 1));
+      lastError = e;
+      if (i < attempts - 1) await sleep(2000 * (i + 1));
     }
   }
+  throw lastError;
+}
+
+async function tryFetchOk(url, opts) {
+  const res = await tryFetch(url, opts);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res;
 }
 
 // 행(<tr>) → 셀(<td>) 배열로 분해
@@ -116,7 +123,7 @@ function extractHref(rowHtml) {
 // ─── ① KSQA 심사평가공고 (가장 핵심: 교육과정 제안 공고 다수) ──────────
 async function fetchKsqaEval() {
   const url = `${KSQA_BASE}/?pid=HP010201`;
-  const res = await tryFetch(url);
+  const res = await tryFetchOk(url);
   const html = await res.text();
   return parseKsqaPage(html, 'HP010201', '심사평가공고');
 }
@@ -124,7 +131,7 @@ async function fetchKsqaEval() {
 // ─── ② KSQA 공지사항 ─────────────────────────────────────────────────
 async function fetchKsqaNotice() {
   const url = `${KSQA_BASE}/?pid=HP010101`;
-  const res = await tryFetch(url);
+  const res = await tryFetchOk(url);
   const html = await res.text();
   return parseKsqaPage(html, 'HP010101', '공지사항');
 }
@@ -191,7 +198,7 @@ function parseKsqaPage(html, pid, categoryLabel) {
 // ─── ③ 고용노동부 공지사항 (키워드 필터) ──────────────────────────────
 async function fetchMoelNotices() {
   const url = `${MOEL_BASE}/news/notice/noticeList.do`;
-  const res = await tryFetch(url);
+  const res = await tryFetchOk(url);
   const html = await res.text();
   const tableMatch = html.match(
     /<table[^>]*class="[^"]*tstyle_list[^"]*"[\s\S]*?<\/table>/i
@@ -259,9 +266,18 @@ async function fetchG2bBids(apiKey) {
   try {
     const res = await tryFetch(url);
     const text = await res.text();
-    // API 키 미승인/오류 시 XML 에러 응답이 올 수 있음
+    if (!res.ok) {
+      // 본문에 사유가 들어있는 경우 (XML/JSON 모두 가능)
+      console.error(
+        `[g2b] HTTP ${res.status}: ${text.slice(0, 400).replace(/\s+/g, ' ')}`
+      );
+      return [];
+    }
     if (text.trim().startsWith('<')) {
-      throw new Error(`G2B XML 에러 응답: ${text.slice(0, 200)}`);
+      console.error(
+        `[g2b] XML 에러 응답: ${text.slice(0, 400).replace(/\s+/g, ' ')}`
+      );
+      return [];
     }
     data = JSON.parse(text);
   } catch (e) {
