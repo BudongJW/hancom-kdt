@@ -302,7 +302,7 @@ async function fetchG2bBids(apiKey) {
 
 // ─── ⑤ 통합 ───────────────────────────────────────────────────────────
 async function collectAll() {
-  const apiKey = process.env.G2B_API_KEY;
+  const apiKey = (process.env.G2B_API_KEY || '').trim();
   const outPath = path.join(__dirname, '..', 'data', 'bids.json');
 
   // 기존 데이터 로드 (소스별 실패 시 fallback 용)
