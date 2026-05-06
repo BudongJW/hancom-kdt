@@ -18,9 +18,16 @@ const G2B_BASE = 'https://apis.data.go.kr/1230000/ad/BidPublicInfoService';
 
 // 훈련/교육 관련 키워드 (MOEL/G2B 필터링용)
 const KEYWORDS = [
-  'K-Digital', 'KDT', '디지털 교육', '디지털교육',
-  '직업훈련', '훈련과정', '교육과정', '인력양성', '양성과정',
-  '직업능력', '훈련생', '훈련기관',
+  // KDT/디지털 인재 핵심
+  'K-Digital', 'K-디지털', 'KDT',
+  '디지털 교육', '디지털교육', '디지털 인재', '디지털 핵심',
+  'AI 인재', 'AI 캠퍼스', 'Pre AI',
+  // 직업훈련 일반
+  '직업훈련', '훈련과정', '교육과정',
+  '인력양성', '양성훈련', '양성과정',
+  '실무인재', '직업능력', '훈련생', '훈련기관',
+  // 사업/공모
+  '인재양성', '직무능력', '디지털전환', '디지털 전환',
 ];
 
 const HEADERS = {
@@ -222,50 +229,64 @@ function parseKsqaPage(html, pid, categoryLabel) {
   return items;
 }
 
-// ─── ③ 고용노동부 공지사항 (키워드 필터) ──────────────────────────────
-async function fetchMoelNotices() {
-  const url = `${MOEL_BASE}/news/notice/noticeList.do`;
-  const res = await tryFetchOk(url);
-  const html = await res.text();
-  const tableMatch = html.match(
-    /<table[^>]*class="[^"]*tstyle_list[^"]*"[\s\S]*?<\/table>/i
-  );
-  if (!tableMatch) return [];
-  const rows = tableMatch[0].match(/<tr[\s\S]*?<\/tr>/gi) || [];
-  const items = [];
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const tds = row.match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
-    if (tds.length < 5) continue;
-    const cells = tds.map((td) => decode(strip(td)));
-    const seq = cells[0];
-    const titleCell = tds[1];
-    const titleAttr = titleCell.match(/title="([^"]+)"/);
-    const title = titleAttr ? decode(titleAttr[1]) : cells[1].replace(/^\[[^\]]+\]\s*/, '');
-    const dept = cells[2];
-    const postedDate = parseKoDate(cells[4]);
-    const href = extractHref(row);
-    if (!title) continue;
-    if (!matchesKeyword(title)) continue;
+// ─── ③ 고용노동부 공지사항 (키워드 필터, 다중 페이지) ────────────────
+const MOEL_MAX_PAGES = 5;
 
-    items.push({
-      id: `moel-${seq || href || i}`,
-      source: 'MOEL',
-      sourceLabel: '고용노동부',
-      category: '공지사항',
-      subCategory: dept || null,
-      title,
-      postedDate,
-      deadline: null,
-      status: null,
-      url: href
-        ? href.startsWith('http')
-          ? href
-          : `${MOEL_BASE}${href.startsWith('/') ? '' : '/news/notice/'}${href}`
-        : url,
-    });
+async function fetchMoelNotices() {
+  const all = [];
+  for (let page = 1; page <= MOEL_MAX_PAGES; page++) {
+    const url = `${MOEL_BASE}/news/notice/noticeList.do?pageIndex=${page}`;
+    let res;
+    try {
+      res = await tryFetchOk(url);
+    } catch (e) {
+      if (page === 1) throw e;
+      console.error(`  MOEL p${page} 실패: ${e.message} (이전 페이지까지 ${all.length}건)`);
+      break;
+    }
+    const html = await res.text();
+    const tableMatch = html.match(
+      /<table[^>]*class="[^"]*tstyle_list[^"]*"[\s\S]*?<\/table>/i
+    );
+    if (!tableMatch) break;
+    const rows = tableMatch[0].match(/<tr[\s\S]*?<\/tr>/gi) || [];
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tds = row.match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
+      if (tds.length < 5) continue;
+      const cells = tds.map((td) => decode(strip(td)));
+      const seq = cells[0];
+      const titleCell = tds[1];
+      const titleAttr = titleCell.match(/title="([^"]+)"/);
+      const title = titleAttr
+        ? decode(titleAttr[1])
+        : cells[1].replace(/^\[[^\]]+\]\s*/, '');
+      const dept = cells[2];
+      const postedDate = parseKoDate(cells[4]);
+      const href = extractHref(row);
+      if (!title) continue;
+      if (!matchesKeyword(title)) continue;
+
+      all.push({
+        id: `moel-${seq || href || `p${page}-${i}`}`,
+        source: 'MOEL',
+        sourceLabel: '고용노동부',
+        category: '공지사항',
+        subCategory: dept || null,
+        title,
+        postedDate,
+        deadline: null,
+        status: null,
+        url: href
+          ? href.startsWith('http')
+            ? href
+            : `${MOEL_BASE}${href.startsWith('/') ? '' : '/news/notice/'}${href}`
+          : url,
+      });
+    }
+    await sleep(300);
   }
-  return items;
+  return all;
 }
 
 // ─── ④ 나라장터 Open API (용역 입찰공고, 키워드 필터) ──────────────────

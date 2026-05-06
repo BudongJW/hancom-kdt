@@ -338,6 +338,18 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50376&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "moel-7685",
+      "source": "MOEL",
+      "sourceLabel": "고용노동부",
+      "category": "공지사항",
+      "subCategory": "직업능력정책과",
+      "title": "2026년 직업능력개발유공포상 접수기간 연장 알림",
+      "postedDate": "2026-04-10",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260400544"
+    },
+    {
       "id": "ksqa-HP010101-50350",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1222,23 +1234,35 @@
   ],
   "sources": {
     "ksqa": 86,
-    "moel": 0,
+    "moel": 1,
     "g2b": 1
   },
   "keywords": [
     "K-Digital",
+    "K-디지털",
     "KDT",
     "디지털 교육",
     "디지털교육",
+    "디지털 인재",
+    "디지털 핵심",
+    "AI 인재",
+    "AI 캠퍼스",
+    "Pre AI",
     "직업훈련",
     "훈련과정",
     "교육과정",
     "인력양성",
+    "양성훈련",
     "양성과정",
+    "실무인재",
     "직업능력",
     "훈련생",
-    "훈련기관"
+    "훈련기관",
+    "인재양성",
+    "직무능력",
+    "디지털전환",
+    "디지털 전환"
   ],
-  "updatedAt": "2026-05-06T08:28:43.865Z",
-  "count": 87
+  "updatedAt": "2026-05-06T08:31:22.763Z",
+  "count": 88
 }
