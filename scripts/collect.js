@@ -334,8 +334,28 @@ async function main() {
     };
 
     const outPath = path.join(__dirname, '..', 'data', 'courses.json');
-    fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
-    console.log(`\n[done] ${courses.length}건 → ${outPath}`);
+
+    // 본문(updatedAt 제외) 동일하면 파일 재작성 생략
+    const cmpKey = (p) => {
+      const c = { ...p };
+      delete c.updatedAt;
+      return JSON.stringify(c);
+    };
+    let changed = true;
+    if (fs.existsSync(outPath)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+        if (cmpKey(existing) === cmpKey(payload)) changed = false;
+      } catch {
+        /* 파싱 실패는 변경된 것으로 간주 */
+      }
+    }
+    if (changed) {
+      fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
+      console.log(`\n[done] ${courses.length}건 → 갱신`);
+    } else {
+      console.log(`\n[done] ${courses.length}건 — 변경사항 없음, 파일 유지`);
+    }
   } catch (e) {
     console.error(`[error] ${e.message}`);
     process.exit(1);

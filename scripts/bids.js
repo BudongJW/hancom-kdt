@@ -702,10 +702,30 @@ async function main() {
     };
 
     const outPath = path.join(__dirname, '..', 'data', 'bids.json');
-    fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
-    console.log(
-      `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / NIPA ${payload.sources.nipa} / G2B ${payload.sources.g2b}) → ${outPath}`
-    );
+
+    // 본문(updatedAt 제외)이 동일하면 파일 재작성 생략 — git commit 누적 방지
+    const cmpKey = (p) => {
+      const c = { ...p };
+      delete c.updatedAt;
+      return JSON.stringify(c);
+    };
+    let changed = true;
+    if (fs.existsSync(outPath)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+        if (cmpKey(existing) === cmpKey(payload)) changed = false;
+      } catch {
+        /* 파싱 실패는 변경된 것으로 간주 */
+      }
+    }
+    if (changed) {
+      fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
+      console.log(
+        `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / NIPA ${payload.sources.nipa} / G2B ${payload.sources.g2b}) → 갱신`
+      );
+    } else {
+      console.log(`\n[done] ${bids.length}건 — 변경사항 없음, 파일 유지`);
+    }
   } catch (e) {
     console.error(`[error] ${e.message}`);
     process.exit(1);
