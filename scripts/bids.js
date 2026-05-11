@@ -18,6 +18,7 @@ const MOEL_BASE = 'https://www.moel.go.kr';
 const G2B_BASE = 'https://apis.data.go.kr/1230000/ad/BidPublicInfoService';
 const IITP_BASE = 'https://www.iitp.kr';
 const NIPA_BASE = 'https://www.nipa.kr';
+const BIZ_BASE = 'https://www.bizinfo.go.kr';
 
 // 만료 정책
 const EXPIRY = {
@@ -491,6 +492,77 @@ async function fetchNipaAll() {
   return all;
 }
 
+// ─── 기업마당 (bizinfo.go.kr) — 정부 통합 지원사업 공고 ─────────────────
+// 8 cols: 번호, 지원분야, [지역]제목, 신청기간, 소관부처, 수행기관, 등록일, 조회수
+const BIZ_MAX_PAGES = 3;
+
+async function fetchBizinfo() {
+  const all = [];
+  for (let page = 1; page <= BIZ_MAX_PAGES; page++) {
+    const url = `${BIZ_BASE}/sii/siia/selectSIIA200View.do?rows=15&cpage=${page}`;
+    let html;
+    try {
+      const res = await tryFetchOk(url);
+      html = await res.text();
+    } catch (e) {
+      if (page === 1) throw e;
+      console.error(`  BIZ p${page} 실패: ${e.message} (이전 페이지까지 ${all.length}건)`);
+      break;
+    }
+    const tableMatch = html.match(/<table[^>]*>[\s\S]*?<\/table>/i);
+    if (!tableMatch) break;
+    const rows = tableMatch[0].match(/<tr[\s\S]*?<\/tr>/gi) || [];
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tds = row.match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
+      if (tds.length < 7) continue;
+      const cells = tds.map((td) => decode(strip(td)));
+      const no = cells[0];
+      const field = cells[1] || null; // 지원분야: 인력/기술/경영 등
+      const titleRaw = cells[2] || '';
+      const period = cells[3] || '';
+      const ministry = cells[4] || null;
+      const orgName = cells[5] || null;
+      const postedDate = parseKoDate(cells[6]);
+
+      // [지역] 추출
+      const regionM = titleRaw.match(/^\[([^\]]+)\]\s*/);
+      const region = regionM ? regionM[1] : null;
+      const title = regionM ? titleRaw.replace(regionM[0], '').trim() : titleRaw;
+      if (!title) continue;
+      if (!matchesKeyword(title)) continue;
+
+      // 마감일 추출: "YYYY-MM-DD ~ YYYY-MM-DD"
+      let deadline = null;
+      const periodM = period.match(/(\d{4}-\d{2}-\d{2})\s*~\s*(\d{4}-\d{2}-\d{2})/);
+      if (periodM) deadline = periodM[2];
+
+      const href = tds[2].match(/href="([^"]+)"/)?.[1];
+      const pblancM = href?.match(/pblancId=([^&]+)/);
+      const pblancId = pblancM ? pblancM[1] : `p${page}-${i}`;
+      const detailUrl = href
+        ? (href.startsWith('http') ? href : `${BIZ_BASE}${href}`)
+        : url;
+
+      all.push({
+        id: `biz-${pblancId}`,
+        source: 'BIZ',
+        sourceLabel: '기업마당',
+        category: field || '지원사업',
+        subCategory: [ministry, region].filter(Boolean).join(' · ') || null,
+        title,
+        postedDate,
+        deadline,
+        status: null,
+        orgName,
+        url: detailUrl,
+      });
+    }
+    await sleep(400);
+  }
+  return all;
+}
+
 // ─── ⑤ 나라장터 Open API (용역 입찰공고, 키워드 필터) ──────────────────
 async function fetchG2bBids(apiKey) {
   // 최근 30일 등록건 조회
@@ -588,7 +660,7 @@ async function collectAll() {
     (existing.bids || []).filter((b) => b.source === src);
 
   // 소스별 결과: null = 시도 후 실패 (기존 데이터 유지), 배열 = 성공 (덮어쓰기)
-  const results = { KSQA: null, MOEL: null, G2B: null, IITP: null, NIPA: null };
+  const results = { KSQA: null, MOEL: null, G2B: null, IITP: null, NIPA: null, BIZ: null };
 
   console.log('[bids] KSQA 심사평가공고 + 공지사항 수집...');
   try {
@@ -624,6 +696,14 @@ async function collectAll() {
     console.error(`  NIPA 실패: ${e.message}`);
   }
 
+  console.log('[bids] 기업마당 정부 통합 지원사업 수집 (키워드 필터)...');
+  try {
+    results.BIZ = await fetchBizinfo();
+    console.log(`  BIZ ${results.BIZ.length}건 (필터 후)`);
+  } catch (e) {
+    console.error(`  BIZ 실패: ${e.message}`);
+  }
+
   if (apiKey) {
     console.log('[bids] 나라장터 Open API 수집 (키워드 필터)...');
     try {
@@ -639,7 +719,7 @@ async function collectAll() {
 
   // 각 소스 병합: 성공이면 새 데이터, 실패면 기존 유지
   const merged = [];
-  for (const src of ['KSQA', 'MOEL', 'IITP', 'NIPA', 'G2B']) {
+  for (const src of ['KSQA', 'MOEL', 'IITP', 'NIPA', 'BIZ', 'G2B']) {
     if (results[src] !== null) {
       merged.push(...results[src]);
     } else {
@@ -694,6 +774,7 @@ async function main() {
         moel: bids.filter((b) => b.source === 'MOEL').length,
         iitp: bids.filter((b) => b.source === 'IITP').length,
         nipa: bids.filter((b) => b.source === 'NIPA').length,
+        biz: bids.filter((b) => b.source === 'BIZ').length,
         g2b: bids.filter((b) => b.source === 'G2B').length,
       },
       keywords: KEYWORDS,
@@ -721,7 +802,7 @@ async function main() {
     if (changed) {
       fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf-8');
       console.log(
-        `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / NIPA ${payload.sources.nipa} / G2B ${payload.sources.g2b}) → 갱신`
+        `\n[done] ${bids.length}건 (KSQA ${payload.sources.ksqa} / MOEL ${payload.sources.moel} / IITP ${payload.sources.iitp} / NIPA ${payload.sources.nipa} / BIZ ${payload.sources.biz} / G2B ${payload.sources.g2b}) → 갱신`
       );
     } else {
       console.log(`\n[done] ${bids.length}건 — 변경사항 없음, 파일 유지`);

@@ -16,6 +16,19 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "biz-p2-8",
+      "source": "BIZ",
+      "sourceLabel": "기업마당",
+      "category": "인력",
+      "subCategory": "중소벤처기업부",
+      "title": "2026년 중소기업 특성화고 인력양성사업 참여기업 모집 공고",
+      "postedDate": "2026-05-08",
+      "deadline": null,
+      "status": null,
+      "orgName": "한국경영혁신중소기업협회",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=2"
+    },
+    {
       "id": "ksqa-HP010101-51003",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1121,6 +1134,7 @@
     "moel": 0,
     "iitp": 8,
     "nipa": 2,
+    "biz": 1,
     "g2b": 0
   },
   "keywords": [
@@ -1149,6 +1163,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-11T01:23:31.254Z",
-  "count": 81
+  "updatedAt": "2026-05-11T01:36:30.819Z",
+  "count": 82
 }
