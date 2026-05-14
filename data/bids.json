@@ -16,6 +16,19 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "biz-p1-5",
+      "source": "BIZ",
+      "sourceLabel": "기업마당",
+      "category": "기술",
+      "subCategory": "경기도",
+      "title": "2026년 시흥시 (국비)금형 디지털전환 지원사업 기술지도 모집 공고",
+      "postedDate": "2026-05-13",
+      "deadline": null,
+      "status": null,
+      "orgName": "시흥산업진흥원",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
+    },
+    {
       "id": "ksqa-HP010101-51003",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -140,34 +153,6 @@
       "status": null,
       "isNew": true,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50950&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-50904",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "훈련이수자평가",
-      "type": "정기",
-      "title": "2026년도 제2차 훈련이수자평가 결과 및 이의신청 안내",
-      "postedDate": "2026-04-30",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50904&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "ksqa-HP010201-50902",
-      "source": "KSQA",
-      "sourceLabel": "직업능력심사평가원",
-      "category": "심사평가공고",
-      "subCategory": "직업능력개발훈련심사평가",
-      "type": "정기",
-      "title": "2026년도 직업능력개발훈련과정(집체) 수시심사 결과 공고",
-      "postedDate": "2026-04-30",
-      "deadline": null,
-      "status": "결과발표",
-      "isNew": false,
-      "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50902&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
       "id": "ksqa-HP010101-50898",
@@ -1075,11 +1060,11 @@
     }
   ],
   "sources": {
-    "ksqa": 68,
+    "ksqa": 66,
     "moel": 0,
     "iitp": 8,
     "nipa": 2,
-    "biz": 0,
+    "biz": 1,
     "g2b": 0
   },
   "keywords": [
@@ -1108,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-13T02:09:16.572Z",
-  "count": 78
+  "updatedAt": "2026-05-14T02:12:07.273Z",
+  "count": 77
 }
