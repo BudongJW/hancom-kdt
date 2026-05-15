@@ -16,17 +16,17 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "biz-p1-5",
+      "id": "biz-p2-5",
       "source": "BIZ",
       "sourceLabel": "기업마당",
       "category": "기술",
-      "subCategory": "경기도",
-      "title": "2026년 시흥시 (국비)금형 디지털전환 지원사업 기술지도 모집 공고",
-      "postedDate": "2026-05-13",
-      "deadline": null,
+      "subCategory": "경상북도 · 경북",
+      "title": "2026년 디지털전환 지원모델 확산사업 지역특화산업지원 참여기업 모집 공고",
+      "postedDate": "2026-05-14",
+      "deadline": "2026-05-28",
       "status": null,
-      "orgName": "시흥산업진흥원",
-      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
+      "orgName": "경북테크노파크",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=2"
     },
     {
       "id": "ksqa-HP010101-51003",
@@ -1093,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-14T02:12:07.273Z",
+  "updatedAt": "2026-05-15T02:09:58.407Z",
   "count": 77
 }
