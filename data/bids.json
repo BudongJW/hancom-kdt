@@ -16,16 +16,16 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "biz-p2-5",
+      "id": "biz-p2-1",
       "source": "BIZ",
       "sourceLabel": "기업마당",
       "category": "기술",
-      "subCategory": "경상북도 · 경북",
-      "title": "2026년 디지털전환 지원모델 확산사업 지역특화산업지원 참여기업 모집 공고",
-      "postedDate": "2026-05-14",
-      "deadline": "2026-05-28",
+      "subCategory": "산업통상부 · 경남",
+      "title": "창원시 2026년 지역 제조기업 대상 제조 디지털전환(DX) 확산기술 지원사업 공고",
+      "postedDate": "2026-05-15",
+      "deadline": "2026-06-26",
       "status": null,
-      "orgName": "경북테크노파크",
+      "orgName": "한국전자기술연구원",
       "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=2"
     },
     {
@@ -1093,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-15T02:09:58.407Z",
+  "updatedAt": "2026-05-16T02:02:16.883Z",
   "count": 77
 }
