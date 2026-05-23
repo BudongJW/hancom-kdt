@@ -16,6 +16,19 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "biz-p1-1",
+      "source": "BIZ",
+      "sourceLabel": "기업마당",
+      "category": "기술",
+      "subCategory": "산업통상부 · 경기",
+      "title": "제조데이터 기반 디지털전환 실증 참여기업 모집 공고",
+      "postedDate": "2026-05-22",
+      "deadline": null,
+      "status": null,
+      "orgName": "경기테크노파크",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
+    },
+    {
       "id": "ksqa-HP010101-51003",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -248,20 +261,6 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50687&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "g2b-R26BK01480948-000",
-      "source": "G2B",
-      "sourceLabel": "나라장터",
-      "category": "용역 입찰공고",
-      "subCategory": "재단법인 대구디지털혁신진흥원",
-      "title": "대구 중소기업 정보보호 서비스 지원 및 인력양성 수행 용역",
-      "postedDate": "2026-04-22",
-      "deadline": null,
-      "status": null,
-      "orgName": "재단법인 대구디지털혁신진흥원",
-      "estimatedPrice": 121619091,
-      "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01480948&bidPbancOrd=000"
     },
     {
       "id": "nipa-16728",
@@ -1065,8 +1064,8 @@
     "moel": 0,
     "iitp": 8,
     "nipa": 2,
-    "biz": 0,
-    "g2b": 1
+    "biz": 1,
+    "g2b": 0
   },
   "keywords": [
     "K-Digital",
@@ -1094,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-22T02:16:35.875Z",
+  "updatedAt": "2026-05-23T02:03:43.479Z",
   "count": 77
 }
