@@ -16,19 +16,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "biz-p1-1",
-      "source": "BIZ",
-      "sourceLabel": "기업마당",
-      "category": "기술",
-      "subCategory": "산업통상부 · 경기",
-      "title": "제조데이터 기반 디지털전환 실증 참여기업 모집 공고",
-      "postedDate": "2026-05-22",
-      "deadline": null,
-      "status": null,
-      "orgName": "경기테크노파크",
-      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
-    },
-    {
       "id": "ksqa-HP010101-51003",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -261,18 +248,6 @@
       "status": null,
       "isNew": false,
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50687&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
-    },
-    {
-      "id": "nipa-16728",
-      "source": "NIPA",
-      "sourceLabel": "정보통신산업진흥원",
-      "category": "사업공고",
-      "subCategory": null,
-      "title": "2026년 AI기반 의료시스템 디지털 전환 지원(AI특화병원 AX-Ready 시범사업) 사업 공고 2026년 AI 기반 의료시스템 디지털 전환 지원(AX-Ready 시범사업)",
-      "postedDate": "2026-04-20",
-      "deadline": "2026-05-26",
-      "status": null,
-      "url": "https://www.nipa.kr/home/2-2/16728"
     },
     {
       "id": "ksqa-HP010101-50598",
@@ -1063,8 +1038,8 @@
     "ksqa": 66,
     "moel": 0,
     "iitp": 8,
-    "nipa": 2,
-    "biz": 1,
+    "nipa": 1,
+    "biz": 0,
     "g2b": 0
   },
   "keywords": [
@@ -1093,6 +1068,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-26T02:11:54.373Z",
-  "count": 77
+  "updatedAt": "2026-05-27T02:19:13.714Z",
+  "count": 75
 }
