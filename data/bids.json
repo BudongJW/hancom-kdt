@@ -182,18 +182,6 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000021&nttId=50857&pid=HP010101&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "nipa-16739",
-      "source": "NIPA",
-      "sourceLabel": "정보통신산업진흥원",
-      "category": "입찰공고",
-      "subCategory": null,
-      "title": "[조달청 긴급입찰공고] 국가 AI 정책 분석 기반 미래 핵심 성장동력 발굴 및 인재양성 전략 연구",
-      "postedDate": "2026-04-27",
-      "deadline": null,
-      "status": null,
-      "url": "https://www.nipa.kr/home/2-3/16739"
-    },
-    {
       "id": "iitp-31-4446",
       "source": "IITP",
       "sourceLabel": "정보통신기획평가원",
@@ -1050,7 +1038,7 @@
     "ksqa": 66,
     "moel": 0,
     "iitp": 8,
-    "nipa": 2,
+    "nipa": 1,
     "biz": 0,
     "g2b": 0
   },
@@ -1080,6 +1068,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-05-29T02:10:12.743Z",
-  "count": 76
+  "updatedAt": "2026-06-07T02:42:59.409Z",
+  "count": 75
 }
