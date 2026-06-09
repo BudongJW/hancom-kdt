@@ -16,6 +16,18 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "moel-7777",
+      "source": "MOEL",
+      "sourceLabel": "고용노동부",
+      "category": "공지사항",
+      "subCategory": "기업훈련지원과",
+      "title": "사업주 직업능력개발훈련 지원규정 일부개정안 행정예고",
+      "postedDate": "2026-06-08",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260600366"
+    },
+    {
       "id": "nipa-16792",
       "source": "NIPA",
       "sourceLabel": "정보통신산업진흥원",
@@ -1036,7 +1048,7 @@
   ],
   "sources": {
     "ksqa": 66,
-    "moel": 0,
+    "moel": 1,
     "iitp": 8,
     "nipa": 1,
     "biz": 0,
@@ -1068,6 +1080,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-07T02:42:59.409Z",
-  "count": 75
+  "updatedAt": "2026-06-09T02:05:40.575Z",
+  "count": 76
 }
