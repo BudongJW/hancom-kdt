@@ -16,6 +16,19 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
+      "id": "biz-p1-15",
+      "source": "BIZ",
+      "sourceLabel": "기업마당",
+      "category": "경영",
+      "subCategory": "전라남도 · 전남",
+      "title": "2026년 뿌리산업 선도기업 육성사업 기업 맞춤형 디지털전환 수준진단 및 컨설팅 지원 수혜기업 공고",
+      "postedDate": "2026-06-17",
+      "deadline": "2026-07-08",
+      "status": null,
+      "orgName": "전남지역산업진흥원",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
+    },
+    {
       "id": "moel-7776",
       "source": "MOEL",
       "sourceLabel": "고용노동부",
@@ -38,6 +51,20 @@
       "deadline": null,
       "status": null,
       "url": "https://www.nipa.kr/home/2-3/16792"
+    },
+    {
+      "id": "g2b-R26BK01530479-000",
+      "source": "G2B",
+      "sourceLabel": "나라장터",
+      "category": "용역 입찰공고",
+      "subCategory": "재단법인 대구디지털혁신진흥원",
+      "title": "2026년 지역산업 SW인재양성 기반조성 사업 SW학습과정 운영 용역",
+      "postedDate": "2026-05-19",
+      "deadline": null,
+      "status": null,
+      "orgName": "재단법인 대구디지털혁신진흥원",
+      "estimatedPrice": 122705455,
+      "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01530479&bidPbancOrd=000"
     },
     {
       "id": "ksqa-HP010101-51003",
@@ -1051,8 +1078,8 @@
     "moel": 1,
     "iitp": 8,
     "nipa": 1,
-    "biz": 0,
-    "g2b": 0
+    "biz": 1,
+    "g2b": 1
   },
   "keywords": [
     "K-Digital",
@@ -1080,6 +1107,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-17T02:44:00.933Z",
-  "count": 76
+  "updatedAt": "2026-06-18T02:41:02.929Z",
+  "count": 78
 }
