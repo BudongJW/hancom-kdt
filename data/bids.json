@@ -53,20 +53,6 @@
       "url": "https://www.nipa.kr/home/2-3/16792"
     },
     {
-      "id": "g2b-R26BK01530479-000",
-      "source": "G2B",
-      "sourceLabel": "나라장터",
-      "category": "용역 입찰공고",
-      "subCategory": "재단법인 대구디지털혁신진흥원",
-      "title": "2026년 지역산업 SW인재양성 기반조성 사업 SW학습과정 운영 용역",
-      "postedDate": "2026-05-19",
-      "deadline": null,
-      "status": null,
-      "orgName": "재단법인 대구디지털혁신진흥원",
-      "estimatedPrice": 122705455,
-      "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01530479&bidPbancOrd=000"
-    },
-    {
       "id": "ksqa-HP010101-51003",
       "source": "KSQA",
       "sourceLabel": "직업능력심사평가원",
@@ -1079,7 +1065,7 @@
     "iitp": 8,
     "nipa": 1,
     "biz": 1,
-    "g2b": 1
+    "g2b": 0
   },
   "keywords": [
     "K-Digital",
@@ -1107,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-18T02:41:02.929Z",
-  "count": 78
+  "updatedAt": "2026-06-19T03:03:38.706Z",
+  "count": 77
 }
