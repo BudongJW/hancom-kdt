@@ -16,17 +16,17 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "biz-p1-15",
+      "id": "biz-p3-3",
       "source": "BIZ",
       "sourceLabel": "기업마당",
       "category": "경영",
-      "subCategory": "전라남도 · 전남",
-      "title": "2026년 뿌리산업 선도기업 육성사업 기업 맞춤형 디지털전환 수준진단 및 컨설팅 지원 수혜기업 공고",
-      "postedDate": "2026-06-17",
-      "deadline": "2026-07-08",
+      "subCategory": "산업통상부 · 경남",
+      "title": "사천시ㆍ진주시 2026년 2차 우주ㆍ항공 제조기업 대상 DX 기반 품질ㆍ공정 개선 및 생산성 향상을 위한 무료 컨설팅 및 전문인력양성 지원사업 공고",
+      "postedDate": "2026-06-18",
+      "deadline": "2026-07-24",
       "status": null,
-      "orgName": "전남지역산업진흥원",
-      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1"
+      "orgName": "한국전자기술연구원",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=3"
     },
     {
       "id": "moel-7776",
@@ -1093,6 +1093,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-19T03:03:38.706Z",
+  "updatedAt": "2026-06-21T02:43:26.904Z",
   "count": 77
 }
