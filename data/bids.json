@@ -16,16 +16,28 @@
       "url": "https://www.ksqa.or.kr/?bbsMode=view&bbsId=BBSMSTR_000000000031&nttId=50999&pid=HP010201&pageIndex=1&searchCnd=&searchWrd=&category_board="
     },
     {
-      "id": "biz-p3-3",
+      "id": "moel-7796",
+      "source": "MOEL",
+      "sourceLabel": "고용노동부",
+      "category": "공지사항",
+      "subCategory": "직업능력평가과",
+      "title": "2026년 하반기 시행 과정평가형 국가기술자격 교육·훈련과정 추가지정 공고",
+      "postedDate": "2026-06-23",
+      "deadline": null,
+      "status": null,
+      "url": "https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260600995"
+    },
+    {
+      "id": "biz-p3-2",
       "source": "BIZ",
       "sourceLabel": "기업마당",
-      "category": "경영",
-      "subCategory": "산업통상부 · 경남",
-      "title": "사천시ㆍ진주시 2026년 2차 우주ㆍ항공 제조기업 대상 DX 기반 품질ㆍ공정 개선 및 생산성 향상을 위한 무료 컨설팅 및 전문인력양성 지원사업 공고",
-      "postedDate": "2026-06-18",
-      "deadline": "2026-07-24",
+      "category": "기술",
+      "subCategory": "산업통상부",
+      "title": "2026년 경북 뿌리산업 DX(디지털전환) 기술지원사업 수혜기업 모집 재공고(뿌리산업 제조공정혁신 지원을 위한 DX 기반구축)",
+      "postedDate": "2026-06-23",
+      "deadline": "2026-07-03",
       "status": null,
-      "orgName": "한국전자기술연구원",
+      "orgName": "경북테크노파크",
       "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=3"
     },
     {
@@ -1061,7 +1073,7 @@
   ],
   "sources": {
     "ksqa": 66,
-    "moel": 1,
+    "moel": 2,
     "iitp": 8,
     "nipa": 1,
     "biz": 1,
@@ -1093,6 +1105,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-21T02:43:26.904Z",
-  "count": 77
+  "updatedAt": "2026-06-24T02:15:00.410Z",
+  "count": 78
 }
