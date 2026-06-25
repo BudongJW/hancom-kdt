@@ -28,19 +28,6 @@
       "url": "https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260600995"
     },
     {
-      "id": "biz-p3-2",
-      "source": "BIZ",
-      "sourceLabel": "기업마당",
-      "category": "기술",
-      "subCategory": "산업통상부",
-      "title": "2026년 경북 뿌리산업 DX(디지털전환) 기술지원사업 수혜기업 모집 재공고(뿌리산업 제조공정혁신 지원을 위한 DX 기반구축)",
-      "postedDate": "2026-06-23",
-      "deadline": "2026-07-03",
-      "status": null,
-      "orgName": "경북테크노파크",
-      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=3"
-    },
-    {
       "id": "moel-7776",
       "source": "MOEL",
       "sourceLabel": "고용노동부",
@@ -1076,7 +1063,7 @@
     "moel": 2,
     "iitp": 8,
     "nipa": 1,
-    "biz": 1,
+    "biz": 0,
     "g2b": 0
   },
   "keywords": [
@@ -1105,6 +1092,6 @@
     "디지털전환",
     "디지털 전환"
   ],
-  "updatedAt": "2026-06-24T02:15:00.410Z",
-  "count": 78
+  "updatedAt": "2026-06-25T02:14:43.051Z",
+  "count": 77
 }
